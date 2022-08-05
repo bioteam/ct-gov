@@ -5,18 +5,15 @@ import argparse
 from urllib import parse
 
 '''
-how many subjects there are in these trials - just completed trials or interventional trials 
-per IC 
+Query clinicaltrials.gov:
 
-Number of studies in each IC 
-Number of subjects/participants in each study by IC - DONE
-Type of studies - interventional etc, observational 
-''' 
+*  Get total number of subjects for some sponsor, location, and study status.
+*  Get number of studies for some sponsor, location, study type, and study status.
 
-'''
-Query clinicaltrials.gov and get back number of patients for some set of studies.
+See the documentation:
 
-See the documentation at https://www.clinicaltrials.gov/api/
+*  https://www.clinicaltrials.gov/api/
+*  https://www.clinicaltrials.gov/api/gui/ref/crosswalks
 
 Example query as URL: 
 
@@ -24,15 +21,17 @@ https://www.clinicaltrials.gov/api/query/field_values?expr=SEARCH%5BLocation%5D%
 
 Equivalent to: SEARCH[Location](AREA[LocationFacility]NIH Clinical Center)
 
-https://www.clinicaltrials.gov/api/gui/ref/crosswalks:
+Query Field Values:
 
-Name of the Sponsor:	LeadSponsorName (e.g. "NINDS")
+*  Name of the sponsor: LeadSponsorName (e.g. "NINDS")
+*  Study status: OverallStatus (e.g. "Completed")
+*  Facility name: LocationFacility (e.g. "NIH Clinical Center")
+*  Study type: StudyType (e.g. "Interventional", "Observational") 
 
-Overall Recruitment Status:	OverallStatus (e.g. "Completed")
+Field:
 
-Facility Name: LocationFacility (e.g. "NIH Clinical Center")
+*  Number of Participants Analyzed: EnrollmentCount
 
-Overall Number of Participants Analyzed: Enrollment Count
 '''
 
 parser = argparse.ArgumentParser()
@@ -41,7 +40,7 @@ parser.add_argument('--field', required=True, help="Field to count - case sensit
 args = parser.parse_args()
 
 baseurl = 'https://www.clinicaltrials.gov/api/query/field_values?'
-exampleurl = 'https://www.clinicaltrials.gov/api/query/field_values?expr=SEARCH%5BLocation%5D%28AREA%5BLocationFacility%5DNIH+Clinical+Center%29&field=OutcomeDenomCountValue&fmt=json'
+exampleurl = 'https://www.clinicaltrials.gov/api/query/field_values?expr=SEARCH%5BLocation%5D%28AREA%5BLocationFacility%5DNIH+Clinical+Center%29&field=EnrollmentCount&fmt=json'
 
 
 # input: sponsor param 
