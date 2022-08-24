@@ -3,6 +3,7 @@
 import requests
 import argparse
 from urllib import parse
+from tabulate import tabulate
 
 '''
 Query clinicaltrials.gov:
@@ -15,7 +16,7 @@ See the documentation:
 *  https://www.clinicaltrials.gov/api/
 *  https://www.clinicaltrials.gov/api/gui/ref/crosswalks
 
-Example query as URL: 
+Example query as URL:
 
 https://www.clinicaltrials.gov/api/query/field_values?expr=SEARCH%5BLocation%5D%28AREA%5BLocationFacility%5DNIH+Clinical+Center%29&field=OutcomeDenomCountValue&fmt=json
 
@@ -56,6 +57,7 @@ args = parser.parse_args()
 baseurl = 'https://www.clinicaltrials.gov/api/query/field_values?'
 exampleurl = 'https://www.clinicaltrials.gov/api/query/field_values?expr=SEARCH%5BLocation%5D%28AREA%5BLocationFacility%5DNIH+Clinical+Center%29&field=EnrollmentCount&fmt=json'
 
+<<<<<<< HEAD
 def main():
     baseUrl = "https://www.clinicaltrials.gov/api/query/field_values?expr={SEARCH}&field={field}&fmt=json"
     for sponsor in args.sponsors:
