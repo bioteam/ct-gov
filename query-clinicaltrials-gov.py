@@ -24,53 +24,62 @@ Equivalent to: SEARCH[Location](AREA[LocationFacility]NIH Clinical Center)
 Query Field Values:
 
 *  Name of the sponsor: LeadSponsorName (e.g. "NINDS")
-*  Study status: OverallStatus (e.g. "Completed")
 *  Facility name: LocationFacility (e.g. "NIH Clinical Center")
 *  Study type: StudyType (e.g. "Interventional", "Observational") 
+*  Study status: OverallStatus:
+    Not yet recruiting: Participants are not yet being recruited
+    Recruiting: Participants are currently being recruited, whether or not any participants have yet been enrolled
+    Enrolling by invitation: Participants are being (or will be) selected from a predetermined population
+    Active, not recruiting: Study is continuing, meaning participants are receiving an intervention or being examined, but new participants are not currently being recruited or enrolled
+    Completed: The study has concluded normally; participants are no longer receiving an intervention or being examined (that is, last participant’s last visit has occurred)
+    Suspended: Study halted prematurely but potentially will resume
+    Terminated: Study halted prematurely and will not resume; participants are no longer being examined or receiving intervention
+    Withdrawn: Study halted prematurely, prior to enrollment of first participant
 
 Field:
 
 *  Number of Participants Analyzed: EnrollmentCount
 
+Example:
+
+./query-clinicaltrials-gov.py --field EnrollmentCount --sponsors NCI NEI NHLBI NHGRI NIA NIAAA NIAID NIAMS NIBIB NICHD NIDCD NIDCR NIDDK NIDA NIEHS NIGMS NIMH NIMHD NINDS NINR NCCIH NCATS CC NLM CSR CIT FIC
+
 '''
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--sponsor', required=True, help="Sponsor of Choice")
+parser.add_argument('--sponsors', required=True, nargs='+', help="Sponsors of Choice")
 parser.add_argument('--field', required=True, help="Field to count - case sensitive (EnrollmentCount | StudyType)")
+parser.add_argument('--status', default='Completed', help="Study status")
+parser.add_argument('--location', default='NIH Clinical Center', help="Study location")
 args = parser.parse_args()
 
 baseurl = 'https://www.clinicaltrials.gov/api/query/field_values?'
 exampleurl = 'https://www.clinicaltrials.gov/api/query/field_values?expr=SEARCH%5BLocation%5D%28AREA%5BLocationFacility%5DNIH+Clinical+Center%29&field=EnrollmentCount&fmt=json'
 
-
-# input: sponsor param 
-# output: Number of participants at the clinical center [--location param] filtered by sponsor [--sponsor param]
-
 def main():
     baseUrl = "https://www.clinicaltrials.gov/api/query/field_values?expr={SEARCH}&field={field}&fmt=json"
-    query = "AREA[LocationFacility]NIH Clinical Center AND AREA[OverallStatus]Recruiting AND AREA[LeadSponsorName]{SPONSOR}".format(SPONSOR = args.sponsor)
-    urlEncodedQuery = parse.quote(query)
-    queryUrl = baseUrl.format(SEARCH=urlEncodedQuery,field=args.field)
-    response = requests.get(queryUrl)
-    response.raise_for_status()
-    jsonResponse = response.json()
+    for sponsor in args.sponsors:
+        query = "AREA[LocationFacility]{LOCATION} AND AREA[OverallStatus]{STATUS} AND AREA[LeadSponsorName]{SPONSOR}".format(LOCATION=args.location, STATUS=args.status, SPONSOR=sponsor)
+        urlEncodedQuery = parse.quote(query)
+        queryUrl = baseUrl.format(SEARCH=urlEncodedQuery,field=args.field)
+        response = requests.get(queryUrl)
+        response.raise_for_status()
+        jsonResponse = response.json()
 
-    if args.field == "EnrollmentCount": 
-        countFieldValues = jsonResponse["FieldValuesResponse"]["FieldValues"]
-        totalCount = 0
-        for value in countFieldValues:
-            totalCount += int(value["FieldValue"])*int(value["NStudiesFoundWithValue"])
+        if args.field == "EnrollmentCount": 
+            countFieldValues = jsonResponse["FieldValuesResponse"]["FieldValues"]
+            totalCount = 0
+            for value in countFieldValues:
+                totalCount += int(value["FieldValue"])*int(value["NStudiesFoundWithValue"])
         
-        print("Total Participants found in {SPONSOR}: {COUNT}".format(SPONSOR = args.sponsor, COUNT = totalCount))
+            print("{SPONSOR}\t{STATUS}\t{LOCATION}\t{COUNT}".format(SPONSOR=sponsor, STATUS=args.status, LOCATION=args.location, COUNT=totalCount))
 
-    elif args.field == "StudyType":
-        studies = jsonResponse["FieldValuesResponse"]["FieldValues"]
-        for study in studies:
-            studytype= study["FieldValue"]
-            nstudies = study["NStudiesFoundWithValue"]
-            print("Number of {STUDYTYPE} Studies found in {SPONSOR}: {STUDIES}".format(SPONSOR = args.sponsor, STUDYTYPE = studytype, STUDIES = nstudies)) 
-
-"""-- query "AREA[LocationFacility]NIH Clinical Center AND AREA[OverallStatus]Completed AND AREA[LeadSponsorName]NEI" """
+        elif args.field == "StudyType":
+            studies = jsonResponse["FieldValuesResponse"]["FieldValues"]
+            for study in studies:
+                studytype= study["FieldValue"]
+                nstudies = study["NStudiesFoundWithValue"]
+                print("{SPONSOR}\t{STUDYTYPE}\t{STATUS}\t{LOCATION}\t{STUDIES}".format(SPONSOR=sponsor, STUDYTYPE=studytype, STUDIES=nstudies, STATUS=args.status, LOCATION=args.location)) 
 
 if __name__ == "__main__":
     main()
