@@ -40,6 +40,7 @@ Query Field Values:
 Field:
 
 *  Number of Participants Analyzed: EnrollmentCount
+*  Number of Studies: StudyType
 
 Example:
 
