@@ -3,6 +3,7 @@
 import requests
 import argparse
 from urllib import parse
+from tabulate import tabulate
 
 '''
 Query clinicaltrials.gov:
@@ -15,7 +16,7 @@ See the documentation:
 *  https://www.clinicaltrials.gov/api/
 *  https://www.clinicaltrials.gov/api/gui/ref/crosswalks
 
-Example query as URL: 
+Example query as URL:
 
 https://www.clinicaltrials.gov/api/query/field_values?expr=SEARCH%5BLocation%5D%28AREA%5BLocationFacility%5DNIH+Clinical+Center%29&field=OutcomeDenomCountValue&fmt=json
 
@@ -26,7 +27,7 @@ Query Field Values:
 *  Name of the sponsor: LeadSponsorName (e.g. "NINDS")
 *  Study status: OverallStatus (e.g. "Completed")
 *  Facility name: LocationFacility (e.g. "NIH Clinical Center")
-*  Study type: StudyType (e.g. "Interventional", "Observational") 
+*  Study type: StudyType (e.g. "Interventional", "Observational")
 
 Field:
 
@@ -43,7 +44,7 @@ baseurl = 'https://www.clinicaltrials.gov/api/query/field_values?'
 exampleurl = 'https://www.clinicaltrials.gov/api/query/field_values?expr=SEARCH%5BLocation%5D%28AREA%5BLocationFacility%5DNIH+Clinical+Center%29&field=EnrollmentCount&fmt=json'
 
 
-# input: sponsor param 
+# input: sponsor param
 # output: Number of participants at the clinical center [--location param] filtered by sponsor [--sponsor param]
 
 def main():
@@ -54,13 +55,14 @@ def main():
     response = requests.get(queryUrl)
     response.raise_for_status()
     jsonResponse = response.json()
-
-    if args.field == "EnrollmentCount": 
+    # table = []
+    # print(tabulate(table))
+    if args.field == "EnrollmentCount":
         countFieldValues = jsonResponse["FieldValuesResponse"]["FieldValues"]
         totalCount = 0
         for value in countFieldValues:
             totalCount += int(value["FieldValue"])*int(value["NStudiesFoundWithValue"])
-        
+
         print("Total Participants found in {SPONSOR}: {COUNT}".format(SPONSOR = args.sponsor, COUNT = totalCount))
 
     elif args.field == "StudyType":
@@ -68,7 +70,7 @@ def main():
         for study in studies:
             studytype= study["FieldValue"]
             nstudies = study["NStudiesFoundWithValue"]
-            print("Number of {STUDYTYPE} Studies found in {SPONSOR}: {STUDIES}".format(SPONSOR = args.sponsor, STUDYTYPE = studytype, STUDIES = nstudies)) 
+            print("Number of {STUDYTYPE} Studies found in {SPONSOR}: {STUDIES}".format(SPONSOR = args.sponsor, STUDYTYPE = studytype, STUDIES = nstudies))
 
 """-- query "AREA[LocationFacility]NIH Clinical Center AND AREA[OverallStatus]Completed AND AREA[LeadSponsorName]NEI" """
 
