@@ -10,7 +10,7 @@ See the documentation:
 
 Example query as URL:
 
-https://www.clinicaltrials.gov/api/query/field_values?expr=SEARCH%5BLocation%5D%28AREA%5BLocationFacility%5DNIH+Clinical+Center%29&field=OutcomeDenomCountValue&fmt=json
+https://www.clinicaltrials.gov/api/query/field_values?expr=SEARCH%5BLocation%5D%28AREA%5BLocationFacility%5DNIH+Clinical+Center%29&field=EnrollmentCount&fmt=json
 
 Equivalent to: SEARCH[Location](AREA[LocationFacility]NIH Clinical Center)
 
