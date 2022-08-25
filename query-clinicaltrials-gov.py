@@ -74,9 +74,7 @@ def main():
 
         elif args.field == "StudyType":
             for study in results:
-                studytype= study["FieldValue"]
-                nstudies = study["NStudiesFoundWithValue"]
-                print("{SPONSOR}\t{STUDYTYPE}\t{STATUS}\t{LOCATION}\t{STUDIES}".format(SPONSOR=sponsor, STUDYTYPE=studytype, STUDIES=nstudies, STATUS=args.status, LOCATION=args.location)) 
+                print("{SPONSOR}\t{STUDYTYPE}\t{STATUS}\t{LOCATION}\t{STUDIES}".format(SPONSOR=sponsor, STUDYTYPE=study["FieldValue"], STUDIES=study["NStudiesFoundWithValue"], STATUS=args.status, LOCATION=args.location)) 
 
 if __name__ == "__main__":
     main()
