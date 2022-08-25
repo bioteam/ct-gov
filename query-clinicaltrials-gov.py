@@ -28,11 +28,11 @@ Query Field Values:
 *  Facility name: LocationFacility (e.g. "NIH Clinical Center")
 *  Study type: StudyType (e.g. "Interventional", "Observational") 
 *  Study status: OverallStatus:
-    Not yet recruiting: Participants are not yet being recruited
-    Recruiting: Participants are currently being recruited, whether or not any participants have yet been enrolled
-    Enrolling by invitation: Participants are being (or will be) selected from a predetermined population
-    Active, not recruiting: Study is continuing, meaning participants are receiving an intervention or being examined, but new participants are not currently being recruited or enrolled
     Completed: The study has concluded normally; participants are no longer receiving an intervention or being examined (that is, last participant’s last visit has occurred)
+    Recruiting: Participants are currently being recruited, whether or not any participants have yet been enrolled
+    Active, not recruiting: Study is continuing, meaning participants are receiving an intervention or being examined, but new participants are not currently being recruited or enrolled
+    Enrolling by invitation: Participants are being (or will be) selected from a predetermined population
+    Not yet recruiting: Participants are not yet being recruited
     Suspended: Study halted prematurely but potentially will resume
     Terminated: Study halted prematurely and will not resume; participants are no longer being examined or receiving intervention
     Withdrawn: Study halted prematurely, prior to enrollment of first participant
@@ -73,7 +73,6 @@ def main():
             totalCount = 0
             for value in countFieldValues:
                 totalCount += int(value["FieldValue"])*int(value["NStudiesFoundWithValue"])
-        
             print("{SPONSOR}\t{STATUS}\t{LOCATION}\t{COUNT}".format(SPONSOR=sponsor, STATUS=args.status, LOCATION=args.location, COUNT=totalCount))
 
         elif args.field == "StudyType":
