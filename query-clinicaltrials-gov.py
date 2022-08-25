@@ -64,17 +64,16 @@ def main():
         response = requests.get(queryUrl)
         response.raise_for_status()
         jsonResponse = response.json()
+        results = jsonResponse["FieldValuesResponse"]["FieldValues"]
 
         if args.field == "EnrollmentCount": 
-            countFieldValues = jsonResponse["FieldValuesResponse"]["FieldValues"]
             totalCount = 0
-            for value in countFieldValues:
+            for value in results:
                 totalCount += int(value["FieldValue"])*int(value["NStudiesFoundWithValue"])
             print("{SPONSOR}\t{STATUS}\t{LOCATION}\t{COUNT}".format(SPONSOR=sponsor, STATUS=args.status, LOCATION=args.location, COUNT=totalCount))
 
         elif args.field == "StudyType":
-            studies = jsonResponse["FieldValuesResponse"]["FieldValues"]
-            for study in studies:
+            for study in results:
                 studytype= study["FieldValue"]
                 nstudies = study["NStudiesFoundWithValue"]
                 print("{SPONSOR}\t{STUDYTYPE}\t{STATUS}\t{LOCATION}\t{STUDIES}".format(SPONSOR=sponsor, STUDYTYPE=studytype, STUDIES=nstudies, STATUS=args.status, LOCATION=args.location)) 
