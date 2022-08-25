@@ -56,11 +56,11 @@ parser.add_argument('--location', default='NIH Clinical Center', help="Study loc
 args = parser.parse_args()
 
 def main():
-    baseUrl = "https://www.clinicaltrials.gov/api/query/field_values?expr={SEARCH}&field={field}&fmt=json"
+    baseUrl = "https://www.clinicaltrials.gov/api/query/field_values?expr={SEARCH}&field={FIELD}&fmt=json"
     for sponsor in args.sponsors:
         query = "AREA[LocationFacility]{LOCATION} AND AREA[OverallStatus]{STATUS} AND AREA[LeadSponsorName]{SPONSOR}".format(LOCATION=args.location, STATUS=args.status, SPONSOR=sponsor)
         urlEncodedQuery = parse.quote(query)
-        queryUrl = baseUrl.format(SEARCH=urlEncodedQuery,field=args.field)
+        queryUrl = baseUrl.format(SEARCH=urlEncodedQuery,FIELD=args.field)
         response = requests.get(queryUrl)
         response.raise_for_status()
         jsonResponse = response.json()
