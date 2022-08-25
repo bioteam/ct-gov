@@ -68,13 +68,13 @@ def main():
 
         if args.field == "EnrollmentCount": 
             totalCount = 0
-            for value in results:
-                totalCount += int(value["FieldValue"])*int(value["NStudiesFoundWithValue"])
+            for result in results:
+                totalCount += int(result["FieldValue"])*int(result["NStudiesFoundWithValue"])
             print("{SPONSOR}\t{STATUS}\t{LOCATION}\t{COUNT}".format(SPONSOR=sponsor, STATUS=args.status, LOCATION=args.location, COUNT=totalCount))
 
         elif args.field == "StudyType":
-            for study in results:
-                print("{SPONSOR}\t{STUDYTYPE}\t{STATUS}\t{LOCATION}\t{STUDIES}".format(SPONSOR=sponsor, STUDYTYPE=study["FieldValue"], STUDIES=study["NStudiesFoundWithValue"], STATUS=args.status, LOCATION=args.location)) 
+            for result in results:
+                print("{SPONSOR}\t{STUDYTYPE}\t{STATUS}\t{LOCATION}\t{STUDIES}".format(SPONSOR=sponsor, STUDYTYPE=result["FieldValue"], STUDIES=result["NStudiesFoundWithValue"], STATUS=args.status, LOCATION=args.location)) 
 
 if __name__ == "__main__":
     main()
