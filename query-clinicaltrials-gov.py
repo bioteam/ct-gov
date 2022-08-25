@@ -63,8 +63,7 @@ def main():
         queryUrl = baseUrl.format(SEARCH=urlEncodedQuery,FIELD=args.field)
         response = requests.get(queryUrl)
         response.raise_for_status()
-        jsonResponse = response.json()
-        results = jsonResponse["FieldValuesResponse"]["FieldValues"]
+        results = response.json()["FieldValuesResponse"]["FieldValues"]
 
         if args.field == "EnrollmentCount": 
             totalCount = 0
