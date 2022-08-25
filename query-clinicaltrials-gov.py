@@ -8,8 +8,8 @@ from tabulate import tabulate
 '''
 Query clinicaltrials.gov:
 
-*  Get total number of subjects for some sponsor, location, and study status.
-*  Get number of studies for some sponsor, location, study type, and study status.
+*  EnrollmentCount - get total number of subjects for some sponsor, location, and study status.
+*  StudyType - Get number of studies of some type (Interventional, Observational).
 
 See the documentation:
 
@@ -28,19 +28,14 @@ Query Field Values:
 *  Facility name: LocationFacility (e.g. "NIH Clinical Center")
 *  Study type: StudyType (e.g. "Interventional", "Observational") 
 *  Study status: OverallStatus:
-    Completed: The study has concluded normally; participants are no longer receiving an intervention or being examined (that is, last participant’s last visit has occurred)
-    Recruiting: Participants are currently being recruited, whether or not any participants have yet been enrolled
-    Active, not recruiting: Study is continuing, meaning participants are receiving an intervention or being examined, but new participants are not currently being recruited or enrolled
-    Enrolling by invitation: Participants are being (or will be) selected from a predetermined population
-    Not yet recruiting: Participants are not yet being recruited
-    Suspended: Study halted prematurely but potentially will resume
-    Terminated: Study halted prematurely and will not resume; participants are no longer being examined or receiving intervention
-    Withdrawn: Study halted prematurely, prior to enrollment of first participant
-
-Field:
-
-*  Number of Participants Analyzed: EnrollmentCount
-*  Number of Studies: StudyType
+    * Completed: The study has concluded normally; participants are no longer receiving an intervention or being examined
+    * Recruiting: Participants are currently being recruited, whether or not any participants have yet been enrolled
+    * Active, not recruiting: Study is continuing, meaning participants are receiving an intervention or being examined
+    * Enrolling by invitation: Participants are being (or will be) selected from a predetermined population
+    * Not yet recruiting: Participants are not yet being recruited
+    * Suspended: Study halted prematurely but potentially will resume
+    * Terminated: Study halted prematurely and will not resume; participants are no longer being examined or receiving intervention
+    * Withdrawn: Study halted prematurely, prior to enrollment of first participant
 
 Example:
 
