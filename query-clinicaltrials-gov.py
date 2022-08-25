@@ -55,9 +55,6 @@ parser.add_argument('--status', default='Completed', help="Study status")
 parser.add_argument('--location', default='NIH Clinical Center', help="Study location")
 args = parser.parse_args()
 
-baseurl = 'https://www.clinicaltrials.gov/api/query/field_values?'
-exampleurl = 'https://www.clinicaltrials.gov/api/query/field_values?expr=SEARCH%5BLocation%5D%28AREA%5BLocationFacility%5DNIH+Clinical+Center%29&field=EnrollmentCount&fmt=json'
-
 def main():
     baseUrl = "https://www.clinicaltrials.gov/api/query/field_values?expr={SEARCH}&field={field}&fmt=json"
     for sponsor in args.sponsors:
