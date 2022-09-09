@@ -3,7 +3,6 @@
 import requests
 import argparse
 from urllib import parse
-from tabulate import tabulate
 
 '''
 Query clinicaltrials.gov:
