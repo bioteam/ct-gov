@@ -66,7 +66,7 @@ def main():
             totalCount = 0
             for result in results:
                 totalCount += int(result["FieldValue"])*int(result["NStudiesFoundWithValue"])
-                print("{SPONSOR}\t{STATUS}\t{LOCATION}\t{COUNT}".format(SPONSOR=sponsor, STATUS=args.status, LOCATION=args.location, COUNT=result["FieldValue"]))
+                # print("{SPONSOR}\t{STATUS}\t{LOCATION}\t{COUNT}".format(SPONSOR=sponsor, STATUS=args.status, LOCATION=args.location, COUNT=result["FieldValue"]))
             print("{SPONSOR}\t{STATUS}\t{LOCATION}\t{COUNT}".format(SPONSOR=sponsor, STATUS=args.status, LOCATION=args.location, COUNT=totalCount))
 
         elif args.field == "StudyType":
