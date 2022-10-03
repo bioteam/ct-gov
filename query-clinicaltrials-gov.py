@@ -46,9 +46,9 @@ Example:
 
 ./query-clinicaltrials-gov.py --field EnrollmentCount --sponsors NCI NEI \
                            NHLBI NHGRI NIA NIAAA NIAID NIAMS NICHD NIDCD \
-                           NIDCR NIDDK NIDA NIMH NINDS NINR NCCIH CC
+                           NIDCR NIDDK NIDA NIMH NINDS NINR NCCIH NIEHS CC
 
-No trials as of 9/2022: NIBIB, NIGMS, NIMHD, NCATS, NIEHS
+No trials as of 9/2022: NIBIB, NIGMS, NIMHD, NCATS
 
 '''
 
